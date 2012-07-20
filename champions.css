@@ -6,3 +6,15 @@
   position: absolute;
   text-indent: 2px;
 }
+
+.ui-slider-horizontal {
+    height: 0.2em;
+}
+
+.ui-slider .ui-slider-handle {
+    position: absolute;
+    z-index: 2;
+    width: 0.8em;
+    height: 0.6em;
+    cursor: default;
+}

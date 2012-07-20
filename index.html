@@ -1,26 +1,60 @@
 <html>
-    <head>
-        <title>League Champions</title>
-        <script type="text/javascript" src="d3.v2.min.js"></script>
-        <script type="text/javascript" src="champions.js"></script>
-        <link rel="stylesheet" href="champions.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-    </head>
-    <body>
-      <div id="league">Select League:
-        <select id="leagueselect">
-          <option value="england">England</option>
-          <option value="france">France</option>
-          <option value="germany">Germany</option>
-          <option value="italy">Italy</option>
-          <option value="netherlands">Netherlands</option>
-          <option value="spain">Spain</option>
-        </select>
+  <head>
+    <title>League Champions</title>
+    <script type="text/javascript" src="d3.v2.min.js"></script>
+    <script type="text/javascript" src="champions.js"></script>
+    <link type="text/css" href="jqueryui/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="jqueryui/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="jqueryui/js/jquery-ui-1.8.21.custom.min.js"></script>
+    <link rel="stylesheet" href="champions.css" type="text/css"
+          media="screen" title="no title" charset="utf-8"/>
+
+  </head>
+  <body>
+    <div id="league">Select League:
+      <select id="leagueselect">
+        <option value="england">England</option>
+        <option value="france">France</option>
+        <option value="germany">Germany</option>
+        <option value="italy">Italy</option>
+        <option value="netherlands">Netherlands</option>
+        <option value="spain">Spain</option>
+      </select>
+    </div>
+    <div id="slider">
+      <style>
+        #demo-frame > div.demo { padding: 10px !important; };
+      </style>
+      <script>
+        jQuery(function() {
+        jQuery( "#slider-range" ).slider({
+        range: true,
+        min: 1870,
+        max: 2015,
+        values: [ 1900, 2010 ],
+        slide: function( event, ui ) {
+        jQuery( "#era" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+        }
+        });
+        jQuery( "#era" ).val(jQuery( "#slider-range" ).slider( "values", 0 ) +
+        " - " + jQuery( "#slider-range" ).slider( "values", 1 ) );
+        });
+      </script>
+
+      <div class="demo">
+        <p>
+          <label for="era">Era:</label>
+          <input type="text" id="era" style="border:0; color:#000000;" />
+        </p>
+
+        <div id="slider-range"></div>
       </div>
+      <br/>
       <div id="champions">
       </div>
       <script type="text/javascript">
         wireUpEvents();
         drawChampionsPlot("england");
       </script>
-    </body>
+  </body>
 </html>
