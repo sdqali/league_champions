@@ -1,5 +1,5 @@
-function drawChampionsPlot () {
-  var width = 1000;
+function drawChampionsPlot (league) {
+  var width = 900;
   var height = 500;
   var padding = 30;
   var color = d3.scale.category20 ();
@@ -8,18 +8,20 @@ function drawChampionsPlot () {
     .sticky(true)
     .value(function(d) { return d.crowns.length; });
 
+  d3.select("#champions").select("div").remove();
   var div = d3.select("#champions").append("div")
     .style("position", "relative")
     .style("width", width + "px")
     .style("height", height + "px");
-
-  d3.csv ("france.csv", function (data) {
+  var csv = league + ".csv";
+  var country = league.toUpperCase();
+  d3.csv (csv, function (data) {
     var champs = getUniques(data.map(function(d) {
       return d.Champions;
     }));
 
     var json = {
-      "name": "France",
+      "name": country,
       "children": []
     };
 
@@ -59,4 +61,12 @@ function getUniques (arr) {
     }
   });
   return unique;
+}
+
+function wireUpEvents() {
+  d3.select("#leagueselect").on("change", function() {
+    var dropdown = d3.select("#leagueselect");
+    var league = dropdown.node().options[dropdown.node().selectedIndex].value;
+    drawChampionsPlot(league);
+  });
 }

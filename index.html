@@ -6,10 +6,21 @@
         <link rel="stylesheet" href="champions.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
     </head>
     <body>
+      <div id="league">Select League:
+        <select id="leagueselect">
+          <option value="england">England</option>
+          <option value="france">France</option>
+          <option value="germany">Germany</option>
+          <option value="italy">Italy</option>
+          <option value="netherlands">Netherlands</option>
+          <option value="spain">Spain</option>
+        </select>
+      </div>
       <div id="champions">
       </div>
       <script type="text/javascript">
-        drawChampionsPlot();
+        wireUpEvents();
+        drawChampionsPlot("england");
       </script>
     </body>
 </html>
