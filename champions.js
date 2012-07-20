@@ -1,4 +1,4 @@
-function drawChampionsPlot (league) {
+function drawChampionsPlot (league, beginning, end) {
   var width = 900;
   var height = 500;
   var padding = 30;
@@ -15,7 +15,21 @@ function drawChampionsPlot (league) {
     .style("height", height + "px");
   var csv = league + ".csv";
   var country = league.toUpperCase();
+
   d3.csv (csv, function (data) {
+    var years = data.map(function(d) {
+      return awardYear(d.Season);
+    });
+    var beginYear = +d3.min(years);
+    var endYear = +d3.max(years);
+    beginning = beginning ? beginning : beginYear;
+    end = end ? end : endYear;
+
+    data = data.filter(function(d) {
+      var year = awardYear(d.Season);
+      return year >= +beginning && year <= +end;
+    });
+
     var champs = getUniques(data.map(function(d) {
       return d.Champions;
     }));
@@ -42,7 +56,18 @@ function drawChampionsPlot (league) {
       .style("background", function(d) { return color(d.name);})
       .call(cell)
       .text(function(d) { return d.children ? null : d.name + " (" + d.crowns.length + ")"; });
+
+//    updateSlider ({beginYear: beginning, endYear: end});
   });
+
+  function awardYear(season) {
+    splits = season.split("-");
+    if(splits.length == 1) {
+      return +splits[0];
+    } else {
+      return +splits[0] + 1;
+    }
+  }
 
   function cell() {
     this
@@ -65,8 +90,55 @@ function getUniques (arr) {
 
 function wireUpEvents() {
   d3.select("#leagueselect").on("change", function() {
-    var dropdown = d3.select("#leagueselect");
-    var league = dropdown.node().options[dropdown.node().selectedIndex].value;
-    drawChampionsPlot(league);
+    updateChampionsPlotForLeague();
   });
+}
+
+function updateChampionsPlotForLeague () {
+  var dropdown = d3.select("#leagueselect");
+  var league = dropdown.node().options[dropdown.node().selectedIndex].value;
+
+  drawChampionsPlot (league, null, null);
+}
+
+function updateChampionsPlot() {
+  var dropdown = d3.select("#leagueselect");
+  var league = dropdown.node().options[dropdown.node().selectedIndex].value;
+  var minVal = jQuery( "#slider-range" ).slider( "values", 0 );
+  var maxVal = jQuery( "#slider-range" ).slider( "values", 1 );
+  drawChampionsPlot(league, minVal, maxVal);
+  jQuery( "#era" ).val(minVal +
+                       " - " + maxVal);
+}
+
+function updateSlider (newRange) {
+  jQuery ("#slider-range").slider ("option", "min", newRange.beginYear - 5);
+  jQuery ("#slider-range").slider ("option", "max", newRange.endYear + 5);
+  jQuery ("#slider-range").slider ("option", "values", [newRange.beginYear, newRange.endYear]);
+  jQuery( "#era" ).val(newRange.beginYear +
+                       " - " + newRange.endYear);
+}
+
+function drawSlider(divId, min, max) {
+  jQuery(function() {
+    jQuery( "#slider-range" ).slider({
+      range: true,
+      min: min - 5,
+      max: max + 5,
+      values: [min, max],
+      slide: function( event, ui ) {
+        updateChampionsPlot();
+      }
+    });
+  });
+  jQuery( "#era" ).val(min +
+                       " - " + max);
+
+}
+
+
+function drawEvrything() {
+  wireUpEvents();
+  drawSlider ("slider", 1893, 2012);
+  drawChampionsPlot("england", 1893, 2012);
 }

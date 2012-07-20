@@ -22,39 +22,20 @@
       </select>
     </div>
     <div id="slider">
-      <style>
-        #demo-frame > div.demo { padding: 10px !important; };
-      </style>
-      <script>
-        jQuery(function() {
-        jQuery( "#slider-range" ).slider({
-        range: true,
-        min: 1870,
-        max: 2015,
-        values: [ 1900, 2010 ],
-        slide: function( event, ui ) {
-        jQuery( "#era" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-        }
-        });
-        jQuery( "#era" ).val(jQuery( "#slider-range" ).slider( "values", 0 ) +
-        " - " + jQuery( "#slider-range" ).slider( "values", 1 ) );
-        });
-      </script>
-
-      <div class="demo">
+      <div class="slidercontrols">
         <p>
           <label for="era">Era:</label>
           <input type="text" id="era" style="border:0; color:#000000;" />
+          Drag the sliders to see data for a particular era.
         </p>
 
-        <div id="slider-range"></div>
+        <div id="slider-range" style="width: 900px;"></div>
       </div>
       <br/>
       <div id="champions">
       </div>
       <script type="text/javascript">
-        wireUpEvents();
-        drawChampionsPlot("england");
+        drawEvrything();
       </script>
   </body>
 </html>

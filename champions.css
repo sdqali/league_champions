@@ -8,13 +8,19 @@
 }
 
 .ui-slider-horizontal {
-    height: 0.2em;
+    height: 0.3em;
 }
 
 .ui-slider .ui-slider-handle {
     position: absolute;
     z-index: 2;
     width: 0.8em;
-    height: 0.6em;
+    height: 0.9em;
     cursor: default;
+}
+.ui-widget-header {
+    border: 1px solid #E78F08;
+    background: #000000;
+    color: white;
+    font-weight: bold;
 }
