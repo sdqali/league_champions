@@ -18,9 +18,14 @@
     height: 0.9em;
     cursor: default;
 }
+
 .ui-widget-header {
     border: 1px solid #E78F08;
     background: #000000;
     color: white;
     font-weight: bold;
+}
+
+#era {
+    font-size: large;
 }
