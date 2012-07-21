@@ -2,7 +2,15 @@ function drawChampionsPlot (league, beginning, end) {
   var width = 900;
   var height = 500;
   var padding = 30;
-  var color = d3.scale.category20 ();
+  var colorScale = d3.scale.category20 ();
+  var colors = ["#1f77b4" ,"#aec7e8" ,"#ff7f0e" ,"#ffbb78" ,"#2ca02c" ,"#98df8a"
+                ,"#d62728" ,"#ff9896" ,"#9467bd" ,"#c5b0d5" ,"#8c564b" ,"#c49c94"
+                ,"#e377c2" ,"#f7b6d2" ,"#7f7f7f" ,"#c7c7c7" ,"#bcbd22" ,"#dbdb8d"
+                ,"#17becf" ,"#9edae5" ,"#393b79" ,"#5254a3" ,"#6b6ecf" ,"#9c9ede"
+                ,"#637939" ,"#8ca252" ,"#b5cf6b" ,"#cedb9c" ,"#8c6d31" ,"#bd9e39"
+                ,"#e7ba52" ,"#e7cb94" ,"#843c39" ,"#ad494a" ,"#d6616b" ,"#e7969c"
+                ,"#7b4173" ,"#a55194" ,"#ce6dbd" ,"#de9ed6"];
+
   var treemap = d3.layout.treemap()
     .size([width, height])
     .sticky(true)
@@ -53,11 +61,9 @@ function drawChampionsPlot (league, beginning, end) {
       .data(treemap.nodes)
       .enter().append("div")
       .attr("class", "cell")
-      .style("background", function(d) { return color(d.name);})
+      .style("background", function(d, i) { return colors [i];})
       .call(cell)
       .text(function(d) { return d.children ? null : d.name + " (" + d.crowns.length + ")"; });
-
-//    updateSlider ({beginYear: beginning, endYear: end});
   });
 
   function awardYear(season) {
@@ -139,6 +145,6 @@ function drawSlider(divId, min, max) {
 
 function drawEvrything() {
   wireUpEvents();
-  drawSlider ("slider", 1893, 2012);
-  drawChampionsPlot("england", 1893, 2012);
+  drawSlider ("slider", 1888, 2012);
+  drawChampionsPlot("england", 1888, 2012);
 }
